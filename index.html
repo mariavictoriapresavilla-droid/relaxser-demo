@@ -17,15 +17,13 @@ html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:radial-gradient(circle at 0 0,#665c4f 0,transparent 42%),radial-gradient(circle at 100% 100%,#5a5146 0,transparent 38%),var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
 .wrap{max-width:540px;margin:0 auto;padding:28px 20px 44px}
-.hero{position:relative;overflow:hidden;padding:8px 0 4px;text-align:center}
+.hero{position:relative;overflow:hidden;padding:12px 0 4px;text-align:center}
 .hero::before{content:"";position:absolute;top:-160px;right:-180px;width:280px;height:280px;border:1px solid var(--line);border-radius:50%}
 .hero>*{position:relative}
-.logo{display:block;width:220px;max-width:70%;height:auto;margin:4px auto 0}
-h1{margin:0;line-height:0}
+.brand{font:500 36px/1.1 "Cormorant Garamond",Georgia,"Times New Roman",serif;color:var(--gold);letter-spacing:.05em;margin:0 0 4px}
 .sub{margin:6px 0 20px;color:var(--mute)}
 .pro{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 0 22px;text-align:left}
-.ph{flex:none;width:62px;height:88px;border:2px solid var(--gold);border-radius:999px;object-fit:cover}
-.pro b{display:block;font:500 28px/1.1 "Cormorant Garamond",Georgia,"Times New Roman",serif}
+.pro b{display:block;font:500 26px/1.1 "Cormorant Garamond",Georgia,"Times New Roman",serif}
 .pro em{color:var(--gold)}
 .pro span{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
 .mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -50,9 +48,6 @@ h2 span{display:inline-block;width:28px;height:28px;margin-right:10px;border:1px
 .opt small{display:block;color:var(--mute);font-size:13px}
 .chip{flex:0 0 auto;min-width:60px;padding:10px 14px;border-radius:999px}
 .chip:disabled{opacity:0.25;cursor:not-allowed;border-color:transparent;background:rgba(255,255,255,0.05)}
-.day{padding:8px 10px;border-radius:14px;text-align:center}
-.day small{display:block;color:var(--mute);font-size:12px}
-.day b{display:block;font-size:20px;font-weight:600}
 .opt.on,.chip.on{border-color:var(--gold);background:rgba(194,169,127,.16)}
 .row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
 .wr{display:flex;flex-wrap:wrap;gap:8px}
@@ -70,9 +65,9 @@ footer a{color:var(--gold)}
 <body>
 <div class="wrap">
 <header class="hero">
-<h1><img class="logo" alt="Relaxser" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUcAAAEYCAYAAADPkTRJAABX+UlEQVR42u2dd5gUVdbGfz0JFFREQEABETBjzmJOmNFVd826mHUxrItpddU1x11d17Sua1bMOeecA0YERVSSgAiSJvR8f5xzv7pd01VdXR2mevq+zzMPw3RXunXve08+qRfGXIKDQ4KwCvArMMUNhUN7os4NgUPCsAEww5GjQ3ujxg2BQ8KwI7CmGwYHR44ODh6GAEsDm7mhcHDk6ODgYRPgFWAisKcbDgdHjg4Ogi2A94GPgC3dcDg4cnRwgK2AHsBnwAtAX2BVNywOjhwdqh17AS8B04FJwIfAhm5YHBw5OlQzNgb6A49Zf3sGccz0cMPj4MjRoVqxB/Am8K31t4+ARlW3HRwcOTpUHZZG4hqfyvLZ68DebogcHDk6VDNGAx8DY7N89qrO0X3cMDk4cnSoJmwCbAc8EfD5ZGCMqt293HA5OHJ0qBbsg9ga3wz5zv3AfMRp4+DgyNGhw2MzYHng6gjffRLYzQ2ZgyNHh2rAvkg2zIQI330VWAQc4YbNwZGjQ0fGwcBQxJ4YBbOAR4E/Aau54XNw5OjQEbEycDhwN1JgIiqeRbJmnOfawZGjQ4fEUcDXwE0xjr0QWAMpUOHg4MjRocNga6QNwukxjx+HBIsf7IbSwZGjQ0dBd8Sh8hDSBiEungQagMPckDo4cnToCPgz0ERmcYk4mArcBRwErO+G1cGRo0Olq9M7I3bGqUU439PAJ8CBbmgdHDk6VCp6A4cAtyGFJIqFK1VV38MNsYMjR4dKxEj996oin/cH4D7EObOyG2YHR44OlYRtkbS/O0p0/seQAPFRbqgdHDk6VApWBI5FCkc8X8Lr/AsYgLM/OjhydKgQHAjMAy4v8XU+UQL+HWLfdHBw5OiQWGwHrEPx7YxB+B9S+/REN/QOjhwdkopBSlIvIH1gyoX/It0KD3GvwKEYqKhiZ+0HrAV0BlqQFqBvuClQdBwFzCF6xZ1i4QMke+aPSMjQBPcqCkJfJMh+aWBJ4DfgPaSvuCPHDoRNdbEurc9cC/yK9C65C0lpm+XWQ8H4PdIs6wzdfMqNy3UDPBj4m3sdsdAbKQ03AhgM1AMpFSgmIA3Pxjq1uuPgWN0JzWbQDHQFtgGuR4oZuC53haE/ErbzIFJarL3wL2AjxEHjkB+ORAoLj8aLHV2k66UZWAm4tFoGoxrIcXl90c26A6ZUckzp39LAuojN6n9IWIhD/hiF9Hq5v53v4x2k9uPZuODwqFgOuAG4WOd/k66NGpUc07pm0sAGwKpOrW4/DAGW0V1rBpINERf1iM0kZf0tZf3fvPQGpJhBT2AXt17ywh+QToInJ8Q8cS/SkGsUcJx7PaHoiwTpbwnM1bVQD7TqGjH/bwIadV0uU+A1ByJxsN2AKUgpuhlJG5ikkeOhwHk6aHX6gpqAX4BXkIIDnwJf5HHOWutcRlJutV5+q0WYLcAOiKPmGL2WQ+6NbF+kveo7Cbmnn5Dc678jdtB73WsKNIVcCwwDFgCddD206FpJ6/dsydFoY/lgLb3GFqql9UQco0Z7m4EUJ/nWkWMwDkAMwmlLsmsAltBJvhfwM+KV/B/iocyHHLHIsUav0aifp/RvjcB6iO3qMJzXM8o7a0WqdCcJb+s82Q94Dudwy4ZTga2UoGz12ajUhiRbfZpXfcTzD1LJfQSwrLXOsIi2..."/></h1>
+<h1 class="brand">Relaxser</h1>
 <p class="sub">Servicio profesional de masajes a domicilio. Reserve su sesión y reciba la confirmación por WhatsApp.</p>
-<div class="pro"><img class="ph" alt="Cristian Martínez" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCADKAIwDASIAAhEBAxEB/8QAGwAAAQUBAQAAAAAAAAAAAAAABQACAwQGBwH/xAA4EAACAQMDAQYEBQQCAQUAAAABAgMABBEFEiExBhMiQVFhFDJxgUJSkaHRI2KxwTPhFrmDglHw..."/><div><b>Cristian <em>Martínez</em></b><span>Masajista profesional</span></div></div>
+<div class="pro"><div><b>Cristian <em>Martínez</em></b><span>Masajista profesional</span></div></div>
 <a class="btn" href="#reserva">Reservar sesión</a>
 </header>
 <main id="reserva">
