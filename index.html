@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Relaxser · Masajes a domicilio</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;1,500&family=Inter:wght@400;500;600&display=swap">
+
+<!-- Firebase Compatibility SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+<style>
+:root{--bg:#2f2b2a;--ink:#f4efe8;--mute:#b8aea4;--gold:#c2a97f;--line:rgba(194,169,127,.38);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 0 0,#665c4f 0,transparent 42%),radial-gradient(circle at 100% 100%,#5a5146 0,transparent 38%),var(--bg);color:var(--ink);font:16px/1.5 Inter,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.wrap{max-width:540px;margin:0 auto;padding:28px 20px 44px}
+.hero{position:relative;overflow:hidden;padding:8px 0 4px;text-align:center}
+.hero::before{content:"";position:absolute;top:-160px;right:-180px;width:280px;height:280px;border:1px solid var(--line);border-radius:50%}
+.hero>*{position:relative}
+.logo{display:block;width:220px;max-width:70%;height:auto;margin:4px auto 0}
+h1{margin:0;line-height:0}
+.sub{margin:6px 0 20px;color:var(--mute)}
+.pro{display:flex;align-items:center;justify-content:center;gap:14px;margin:0 0 22px;text-align:left}
+.ph{flex:none;width:62px;height:88px;border:2px solid var(--gold);border-radius:999px;object-fit:cover}
+.pro b{display:block;font:500 28px/1.1 "Cormorant Garamond",Georgia,"Times New Roman",serif}
+.pro em{color:var(--gold)}
+.pro span{font-size:12px;font-weight:600;letter-spacing:.14em;text-transform:uppercase}
+.mh{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.mh b{font:500 22px/1.2 "Cormorant Garamond",Georgia,"Times New Roman",serif}
+.nav{width:40px;height:40px;border:1px solid var(--line);border-radius:50%;background:transparent;color:var(--gold);font:20px/1 Inter,sans-serif;cursor:pointer}
+.nav:disabled{opacity:.3;cursor:default}
+.wd,.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.wd{margin-bottom:4px;color:var(--mute);font-size:12px}
+.cd{aspect-ratio:1;padding:0;border:1px solid transparent;border-radius:10px;background:transparent;color:var(--ink);font:inherit;cursor:pointer}
+.cd:disabled{opacity:.28;cursor:default}
+.cd.on{border-color:var(--gold);background:rgba(194,169,127,.18)}
+.btn{display:block;width:100%;padding:15px 20px;border:0;border-radius:999px;background:var(--gold);color:#2a2523;font:600 16px Inter,system-ui,sans-serif;text-align:center;text-decoration:none;cursor:pointer}
+.btn.off{opacity:.4;pointer-events:none}
+section{margin-top:30px;padding-top:20px;border-top:1px solid var(--line)}
+h2{margin:0 0 14px;color:var(--gold);font:500 26px/1.2 "Cormorant Garamond",Georgia,"Times New Roman",serif}
+h2 span{display:inline-block;width:28px;height:28px;margin-right:10px;border:1px solid var(--gold);border-radius:50%;font:600 13px/26px Inter,sans-serif;text-align:center;vertical-align:3px}
+.grid{display:grid;gap:10px}
+.opt,.chip{border:1px solid var(--line);background:transparent;color:var(--ink);font:inherit;cursor:pointer}
+.opt{padding:12px 14px;border-radius:10px;text-align:left}
+.opt b{font-weight:600}
+.opt span{float:right;color:var(--gold);font-size:14px}
+.opt small{display:block;color:var(--mute);font-size:13px}
+.chip{flex:0 0 auto;min-width:60px;padding:10px 14px;border-radius:999px}
+.chip:disabled{opacity:0.25;cursor:not-allowed;border-color:transparent;background:rgba(255,255,255,0.05)}
+.day{padding:8px 10px;border-radius:14px;text-align:center}
+.day small{display:block;color:var(--mute);font-size:12px}
+.day b{display:block;font-size:20px;font-weight:600}
+.opt.on,.chip.on{border-color:var(--gold);background:rgba(194,169,127,.16)}
+.row{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px}
+.wr{display:flex;flex-wrap:wrap;gap:8px}
+.hint{margin:0;color:var(--mute);font-size:14px}
+input,textarea{display:block;width:100%;margin:0 0 10px;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit}
+textarea{min-height:76px;resize:vertical}
+:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.sum{margin:4px 0 14px;padding:12px 14px;border-left:2px solid var(--gold);background:rgba(194,169,127,.1);font-size:15px}
+.note{margin:10px 0 0;color:var(--mute);font-size:13px;text-align:center}
+footer{margin-top:30px;text-align:center;color:var(--mute);font-size:14px}
+footer p{margin:2px 0}
+footer a{color:var(--gold)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero">
+<h1><img class="logo" alt="Relaxser" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUcAAAEYCAYAAADPkTRJAABX+UlEQVR42u2dd5gUVdbGfz0JFFREQEABETBjzmJOmNFVd826mHUxrItpddU1x11d17Sua1bMOeecA0YERVSSgAiSJvR8f5xzv7pd01VdXR2mevq+zzMPw3RXunXve08+qRfGXIKDQ4KwCvArMMUNhUN7os4NgUPCsAEww5GjQ3ujxg2BQ8KwI7CmGwYHR44ODh6GAEsDm7mhcHDk6ODgYRPgFWAisKcbDgdHjg4Ogi2A94GPgC3dcDg4cnRwgK2AHsBnwAtAX2BVNywOjhwdqh17AS8B04FJwIfAhm5YHBw5OlQzNgb6A49Zf3sGccz0cMPj4MjRoVqxB/Am8K31t4+ARlW3HRwcOTpUHZZG4hqfyvLZ68DebogcHDk6VDNGAx8DY7N89qrO0X3cMDk4cnSoJmwCbAc8EfD5ZGCMqt293HA5OHJ0qBbsg9ga3wz5zv3AfMRp4+DgyNGhw2MzYHng6gjffRLYzQ2ZgyNHh2rAvkg2zIQI330VWAQc4YbNwZGjQ0fGwcBQxJ4YBbOAR4E/Aau54XNw5OjQEbEycDhwN1JgIiqeRbJmnOfawZGjQ4fEUcDXwE0xjr0QWAMpUOHg4MjRocNga6QNwukxjx+HBIsf7IbSwZGjQ0dBd8Sh8hDSBiEungQagMPckDo4cnToCPgz0ERmcYk4mArcBRwErO+G1cGRo0Olq9M7I3bGqUU439PAJ8CBbmgdHDk6VCp6A4cAtyGFJIqFK1VV38MNsYMjR4dKxEj996oin/cH4D7EObOyG2YHR44OlYRtkbS/O0p0/seQAPFRbqgdHDk6VApWBI5FCkc8X8Lr/AsYgLM/OjhydKgQHAjMAy4v8XU+UQL+HWLfdHBw5OiQWGwHrEPx7YxB+B9S+/REN/QOjhwdkopBSlIvIH1gyoX/It0KD3GvwKEYqKhiZ+0HrAV0BlqQFqBvuClQdBwFzCF6xZ1i4QMke+aPSMjQBPcqCkJfJMh+aWBJ4DfgPaSvuCPHDoRNdbEurc9cC/yK9C65C0lpm+XWQ8H4PdIs6wzdfMqNy3UDPBj4m3sdsdAbKQ03AhgM1AMpFSgmIA3Pxjq1uuPgWN0JzWbQDHQFtgGuR4oZuC53haE/ErbzIFJarL3wL2AjxEHjkB+ORAoLj8aLHV2k66UZWAm4tFoGoxrIcXl90c26A6ZUckzp39LAuojN6n9IWIhD/hiF9Hq5v53v4x2k9uPZuODwqFgOuAG4WOd/k66NGpUc07pm0sAGwKpOrW4/DAGW0V1rBpINERf1iM0kZf0tZf3fvPQGpJhBT2AXt17ywh+QToInJ8Q8cS/SkGsUcJx7PaHoiwTpbwnM1bVQD7TqGjH/bwIadV0uU+A1ByJxsN2AKUgpuhlJG5ikkeOhwHk6aHX6gpqAX4BXkIIDnwJf5HHOWutcRlJutV5+q0WYLcAOiKPmGL2WQ+6NbF+kveo7Cbmnn5Dc678jdtB73WsKNIVcCwwDFgCddD206FpJ6/dsydFoY/lgLb3GFqql9UQco0Z7m4EUJ/nWkWMwDkAMwmlLsmsAltBJvhfwM+KV/B/iocyHHLHIsUav0aifp/RvjcB6iO3qMJzXM8o7a0WqdCcJb+s82Q94Dudwy4ZTga2UoGz12ajUhiRbfZpXfcTzD1LJfQSwrLXOsIi2..."/></h1>
+<p class="sub">Servicio profesional de masajes a domicilio. Reserve su sesión y reciba la confirmación por WhatsApp.</p>
+<div class="pro"><img class="ph" alt="Cristian Martínez" src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAoHBwgHBgoICAgLCgoLDhgQDg0NDh0VFhEYIx8lJCIfIiEmKzcvJik0KSEiMEExNDk7Pj4+JS5ESUM8SDc9Pjv/2wBDAQoLCw4NDhwQEBw7KCIoOzs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozs7Ozv/wAARCADKAIwDASIAAhEBAxEB/8QAGwAAAQUBAQAAAAAAAAAAAAAABQACAwQGBwH/xAA4EAACAQMDAQYEBQQCAQUAAAABAgMABBEFEiExBhMiQVFhFDJxgUJSkaHRI2KxwTPhFrmDglHw..."/><div><b>Cristian <em>Martínez</em></b><span>Masajista profesional</span></div></div>
+<a class="btn" href="#reserva">Reservar sesión</a>
+</header>
+<main id="reserva">
+<section><h2><span>1</span>Seleccione el servicio</h2><div class="grid" id="svc"></div></section>
+<section><h2><span>2</span>Seleccione la fecha</h2>
+<div class="mh"><button type="button" class="nav" id="pm" aria-label="Mes anterior">‹</button><b id="mt"></b><button type="button" class="nav" id="nx" aria-label="Mes siguiente">›</button></div>
+<div class="wd"><span>lun</span><span>mar</span><span>mié</span><span>jue</span><span>vie</span><span>sáb</span><span>dom</span></div>
+<div class="cal" id="cal"></div></section>
+<section><h2><span>3</span>Seleccione el horario</h2><div class="wr" id="times"></div></section>
+<section><h2><span>4</span>Datos de la reserva</h2>
+<input id="nm" placeholder="Nombre y apellido" autocomplete="name">
+<input id="ad" placeholder="Dirección donde se realizará el servicio" autocomplete="street-address">
+<textarea id="nt" placeholder="Observaciones: molestias, lesiones o indicaciones (opcional)"></textarea>
+<div class="sum" id="sum"></div>
+<a class="btn off" id="go" target="_blank" rel="noopener" aria-disabled="true">Solicitar reserva por WhatsApp</a>
+<p class="note" id="miss"></p>
+</section>
+</main>
+<footer>
+<p>Consultas y coordinación</p>
+<p><a href="tel:+59898643715">098 643 715</a></p>
+<p><a href="mailto:cristianalcala985@gmail.com">cristianalcala985@gmail.com</a></p>
+</footer>
+</div>
+
+<script>
+// --- Configuración e Inicialización de Firebase ---
+const firebaseConfig = {
+  apiKey: "AIzaSyCSC7i0KolHmsDlpPlyNhldZcDpFVDbVkY",
+  authDomain: "relaxserdemo.firebaseapp.com",
+  databaseURL: "https://relaxserdemo-default-rtdb.firebaseio.com",
+  projectId: "relaxserdemo",
+  storageBucket: "relaxserdemo.firebasestorage.app",
+  messagingSenderId: "364804667981",
+  appId: "1:364804667981:web:84f060aa6f42f00c837a04"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+// --- Lógica de la aplicación ---
+const WA='59898643715',HORIZON=90,now=new Date(),$=id=>document.getElementById(id);
+const S=[
+{n:'Masaje relajante',d:60,p:'',t:'Orientado a la relajación y al descanso'},
+{n:'Masaje descontracturante',d:60,p:'',t:'Alivio de la tensión en cuello, espalda y hombros'},
+{n:'Masaje deportivo',d:60,p:'',t:'Preparación o recuperación para la actividad deportiva'},
+{n:'Sesión extendida',d:90,p:'',t:'Mayor duración para un trabajo más profundo'}];
+const DN=['domingo','lunes','martes','miércoles','jueves','viernes','sábado'];
+const MN=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+const today=new Date(now.getFullYear(),now.getMonth(),now.getDate()),last=new Date(today.getFullYear(),today.getMonth(),today.getDate()+HORIZON);
+let vm=new Date(today.getFullYear(),today.getMonth(),1);
+const st={s:null,d:null,h:null},pad=h=>String(h).padStart(2,'0')+':00',fd=x=>DN[x.getDay()]+' '+x.getDate()+' de '+MN[x.getMonth()];
+
+let bookedSlots = {};
+
+db.ref('turnos').on('value', snapshot => {
+    bookedSlots = snapshot.val() || {};
+    update();
+});
+
+$('svc').innerHTML=S.map((x,i)=>`<button type="button" class="opt" data-i="${i}"><b>${x.n}</b><span>${x.p?x.p+', ':''}${x.d} min</span><small>${x.t}</small></button>`).join('');
+
+function cal(){
+ const y=vm.getFullYear(),m=vm.getMonth(),off=(new Date(y,m,1).getDay()+6)%7,n=new Date(y,m+1,0).getDate();
+ let h='<i></i>'.repeat(off);
+ for(let d=1;d<=n;d++){
+  const x=new Date(y,m,d),ok=x>=today&&x<=last&&x.getDay()!==0;
+  h+=`<button type="button" class="cd${st.d&&+st.d===+x?' on':''}" data-t="${+x}"${ok?'':' disabled'}>${d}</button>`}
+ $('cal').innerHTML=h;
+ $('mt').textContent=MN[m][0].toUpperCase()+MN[m].slice(1)+' de '+y;
+ $('pm').disabled=vm<=new Date(today.getFullYear(),today.getMonth(),1);
+ $('nx').disabled=new Date(y,m+1,1)>last}
+
+function slots(){
+ if(st.s===null||!st.d)return null;
+ const o=[];
+ const dateKey = st.d.getFullYear() + '-' + String(st.d.getMonth() + 1).padStart(2, '0') + '-' + String(st.d.getDate()).padStart(2, '0');
+ const dayBooked = bookedSlots[dateKey] || {};
+
+ for(let h=9;h<=19;h++){
+  if(h*60+S[st.s].d>1200)continue;
+  if(new Date(st.d.getFullYear(),st.d.getMonth(),st.d.getDate(),h)-now<72e5)continue;
+  o.push({ hour: h, booked: !!dayBooked[h] });
+ }
+ return o;
+}
+
+function update(){
+ cal();
+ const o=slots();
+ if(!o || !o.some(item => item.hour === st.h && !item.booked)) st.h=null;
+
+ $('times').innerHTML = o === null ? '<p class="hint">Seleccione primero el servicio y la fecha.</p>' : 
+    o.length ? o.map(item => `<button type="button" class="chip${st.h===item.hour?' on':''}" data-h="${item.hour}" ${item.booked ? 'disabled' : ''}>${pad(item.hour)}${item.booked ? ' (Ocupado)' : ''}</button>`).join('') 
+    : '<p class="hint">No quedan horarios disponibles para esa fecha. Seleccione otra.</p>';
+
+ document.querySelectorAll('#svc .opt').forEach((b,i)=>b.classList.toggle('on',st.s===i));
+ const p=[];
+ if(st.s!==null)p.push(S[st.s].n+' ('+S[st.s].d+' min)');
+ if(st.d)p.push(fd(st.d));
+ if(st.h!==null)p.push(pad(st.h)+' h');
+ $('sum').textContent=p.length?'Su reserva: '+p.join(', '):'Aquí se mostrará el resumen de su reserva.';
+ const nm=$('nm').value.trim(),ad=$('ad').value.trim(),nt=$('nt').value.trim(),go=$('go'),ok=st.h!==null&&nm&&ad;
+ 
+ if(ok){
+  const s=S[st.s],m=['Buen día. Deseo solicitar una reserva de masaje a domicilio con Relaxser:','','• Servicio: '+s.n+' ('+s.d+' min'+(s.p?', '+s.p:'')+')','• Fecha: '+fd(st.d),'• Hora: '+pad(st.h)+' h','• Nombre: '+nm,'• Dirección: '+ad];
+  if(nt)m.push('• Observaciones: '+nt);
+  m.push('','Quedo a la espera de su confirmación. Muchas gracias.');
+  go.href='https://wa.me/'+WA+'?text='+encodeURIComponent(m.join('\n'));
+ }else go.removeAttribute('href');
+ 
+ go.classList.toggle('off',!ok);
+ go.setAttribute('aria-disabled',String(!ok));
+ $('miss').textContent=ok?'Se abrirá WhatsApp con su solicitud. La reserva queda sujeta a confirmación.':'Complete los cuatro pasos para continuar.';
+}
+
+$('go').addEventListener('click', e => {
+    if (st.d && st.h !== null) {
+        const dateKey = st.d.getFullYear() + '-' + String(st.d.getMonth() + 1).padStart(2, '0') + '-' + String(st.d.getDate()).padStart(2, '0');
+        const nm = $('nm').value.trim();
+        db.ref(`turnos/${dateKey}/${st.h}`).set({
+            cliente: nm,
+            servicio: S[st.s].n,
+            creado: new Date().toISOString()
+        });
+    }
+});
+
+document.addEventListener('click',e=>{
+ const b=e.target.closest('button');if(!b)return;
+ if(b.closest('#svc'))st.s=+b.dataset.i;
+ else if(b.id==='pm')vm=new Date(vm.getFullYear(),vm.getMonth()-1,1);
+ else if(b.id==='nx')vm=new Date(vm.getFullYear(),vm.getMonth()+1,1);
+ else if(b.closest('#cal'))st.d=new Date(+b.dataset.t);
+ else if(b.closest('#times') && !b.disabled)st.h=+b.dataset.h;
+ else return;
+ update();
+});
+
+['nm','ad','nt'].forEach(id=>$(id).addEventListener('input',update));
+update();
+</script>
+</body>
+</html>
